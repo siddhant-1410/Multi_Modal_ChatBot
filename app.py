@@ -54,7 +54,7 @@ iface = gr.Interface(
         gr.Textbox(label="Doctor's Response"),
         gr.Audio(label="Doctor's Voice Response")  # Removed the hardcoded "Temp.mp3"
     ],
-    title="AI Doctor with Vision and Voice"
+    title="Doctor - AI - Vision & Voice"
 )
 
 iface.launch(debug=True)
