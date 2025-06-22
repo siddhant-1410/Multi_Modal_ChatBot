@@ -21,25 +21,39 @@ system_prompt="""You have to act as a professional doctor, i know you are not bu
             Keep your answer concise (max 2 sentences). No preamble, start your answer right away please"""
 
 
+import time
+
 def process_inputs(audio_filepath, image_filepath):
-    speech_to_text_output = transcribe_with_groq(GROQ_API_KEY=os.environ.get("GROQ_API_KEY"), 
-                                                 audio_filepath=audio_filepath,
-                                                 stt_model="whisper-large-v3")
+    speech_to_text_output = transcribe_with_groq(
+        GROQ_API_KEY=os.environ.get("GROQ_API_KEY"), 
+        audio_filepath=audio_filepath,
+        stt_model="whisper-large-v3"
+    )
 
- 
+    doctor_response = "No image provided for me to analyze"
     if image_filepath:
-        doctor_response = analyze_image_with_query(query=system_prompt+speech_to_text_output, 
-                                                 encoded_image=encode_image(image_filepath), 
-                                                 model="meta-llama/llama-4-scout-17b-16e-instruct")
-    else:
-        doctor_response = "No image provided for me to analyze"
+       
+        wait_time = 0
+        while not os.path.exists(image_filepath) and wait_time < 5:
+            time.sleep(0.1)
+            wait_time += 0.1
 
-    
-    audio_file_path = text_to_speech_with_gtts(input_text=doctor_response, 
-                                             mp3_path="final.mp3",
-                                             wav_path="final.wav") 
+        if os.path.exists(image_filepath):
+            encoded = encode_image(image_filepath)
+            doctor_response = analyze_image_with_query(
+                query=system_prompt + speech_to_text_output, 
+                encoded_image=encoded, 
+                model="meta-llama/llama-4-scout-17b-16e-instruct"
+            )
+
+    audio_file_path = text_to_speech_with_gtts(
+        input_text=doctor_response, 
+        mp3_path="final.mp3",
+        wav_path="final.wav"
+    ) 
 
     return speech_to_text_output, doctor_response, audio_file_path
+
 
 
 # Create the interface
