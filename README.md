@@ -72,7 +72,3 @@ It's like talking to an AI doctor that can see and hear.
 ## Important Note
 
 This is for educational purposes only. Always consult real doctors for medical advice.
-
-## Credits
-
-Built following M. Hassan Mahmood's tutorial on creating generative AI applications.
