@@ -5,7 +5,11 @@ A simple AI medical consultation app where you can talk and show images to get b
 ## Video Demonstration
 
 
-https://github.com/user-attachments/assets/d5b5147c-3ec7-4d8f-863a-1a2fe4c5b04e
+
+
+https://github.com/user-attachments/assets/60c7c4c1-3f0e-4c86-b00b-0ac1a333366a
+
+
 
 
 ## What This Project Does
