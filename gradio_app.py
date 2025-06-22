@@ -1,6 +1,6 @@
 # if you dont use pipenv uncomment the following:
-# from dotenv import load_dotenv
-# load_dotenv()
+from dotenv import load_dotenv
+load_dotenv()
 
 #VoiceBot UI with Gradio
 import os
@@ -26,16 +26,20 @@ def process_inputs(audio_filepath, image_filepath):
                                                  audio_filepath=audio_filepath,
                                                  stt_model="whisper-large-v3")
 
-    # Handle the image input
+ 
     if image_filepath:
-        doctor_response = analyze_image_with_query(query=system_prompt+speech_to_text_output, encoded_image=encode_image(image_filepath), model="meta-llama/llama-4-scout-17b-16e-instruct")
+        doctor_response = analyze_image_with_query(query=system_prompt+speech_to_text_output, 
+                                                 encoded_image=encode_image(image_filepath), 
+                                                 model="meta-llama/llama-4-scout-17b-16e-instruct")
     else:
         doctor_response = "No image provided for me to analyze"
 
-    voice_of_doctor = text_to_speech_with_gtts(input_text=doctor_response, mp3_path="final.mp3",
-    wav_path="final.wav") 
+    
+    audio_file_path = text_to_speech_with_gtts(input_text=doctor_response, 
+                                             mp3_path="final.mp3",
+                                             wav_path="final.wav") 
 
-    return speech_to_text_output, doctor_response, voice_of_doctor
+    return speech_to_text_output, doctor_response, audio_file_path
 
 
 # Create the interface
@@ -48,11 +52,9 @@ iface = gr.Interface(
     outputs=[
         gr.Textbox(label="Speech to Text"),
         gr.Textbox(label="Doctor's Response"),
-        gr.Audio("Temp.mp3")
+        gr.Audio(label="Doctor's Voice Response")  # Removed the hardcoded "Temp.mp3"
     ],
     title="AI Doctor with Vision and Voice"
 )
 
 iface.launch(debug=True)
-
-#http://127.0.0.1:7860

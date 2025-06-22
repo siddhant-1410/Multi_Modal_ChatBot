@@ -15,7 +15,6 @@ def text_to_speech_with_gtts(input_text, mp3_path, wav_path):
     sound = AudioSegment.from_mp3(mp3_path)
     sound.export(wav_path, format="wav")
 
-    # Play WAV
     os_name = platform.system()
     try:
         if os_name == "Windows":
@@ -26,10 +25,13 @@ def text_to_speech_with_gtts(input_text, mp3_path, wav_path):
             subprocess.run(['aplay', wav_path])
     except Exception as e:
         print(f"An error occurred while trying to play the audio: {e}")
+    
+    
+    return mp3_path  
 
-# Call function
-text_to_speech_with_gtts(
-    input_text="Hi this is AI with Siddhant, converted to new version !",
-    mp3_path="gtts_testing.mp3",
-    wav_path="gtts_testing.wav"
-)
+
+# text_to_speech_with_gtts(
+#     input_text="Hi this is AI with Siddhant, converted to new version !",
+#     mp3_path="gtts_testing.mp3",
+#     wav_path="gtts_testing.wav"
+# )
